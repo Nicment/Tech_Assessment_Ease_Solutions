@@ -1,6 +1,16 @@
-from fileOpen import fileOpen
-from challengeSolution import challengeSolution
+from fileOpen.fileOpen import fileOpen
+from challengeSolution.challengeSolution import challengeSolution
 
-class main():
+class mainChallenge():
     def __init__(self):
-        self.fileOpen = fileOpen()
+        readFile = fileOpen()
+        size = readFile.exportSize()
+        data = readFile.exportMatrix()
+        challengeSolution(data,size)
+        print(data)
+
+def main():
+    mainChallenge()
+
+if __name__ == '__main__':
+    main()  
