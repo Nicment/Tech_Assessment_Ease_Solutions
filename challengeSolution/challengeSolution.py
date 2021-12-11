@@ -57,7 +57,10 @@ class vertex():# an object is created that will contain the data of each vertex
         self.bestWay += bestWay
     
     def bestWaySelected(self, northWay:list=[],southWay:list =[],eastWay:list =[],westWay:list=[]):
+        
+        
         bestWay = []
+        
         northWaySteps = len(northWay)
         southWaySteps = len(southWay)
         eastWaySteps = len(eastWay)
@@ -99,9 +102,11 @@ class vertex():# an object is created that will contain the data of each vertex
         
     
     def findBestWay(self):
+        """Find the ways neighbors of the vertex and """
         if self.visited:
             return self.bestWay
-        # Upper left corner
+        # Finding the neighbors of the vertex
+        """--------------------------------------------------------"""
         if self.i == 0 and self.j == 0:                
             south = self.matrix[self.i+1][self.j]
             east = self.matrix[self.i][self.j+1]
