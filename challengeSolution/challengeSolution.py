@@ -16,8 +16,6 @@ class challengeSolution():
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 matrix[i][j].findBestWay()
-        for i in range(self.size[0]):
-            for j in range(self.size[1]):
                 print(matrix[i][j].bestWay)
                 
 
@@ -67,6 +65,10 @@ class vertex():# an object is created that will contain the data of each vertex
         
         maxSteps = max(northWaySteps,max(southWaySteps,max(eastWaySteps,westWaySteps)))
         maxHeight = max(northWayHeight,max(southWayHeight,max(eastWayHeight,westWayHeight)))
+        
+        self.lengthOfCalculatedPath = maxSteps
+        self.dropOfCalculatedPath = maxHeight
+        
         if northWaySteps == maxSteps and northWayHeight == maxHeight:
             bestWay =  northWay
         elif southWaySteps == maxSteps and southWayHeight == maxHeight:
@@ -80,6 +82,8 @@ class vertex():# an object is created that will contain the data of each vertex
         
     
     def findBestWay(self):
+        if self.visited:
+            return self.bestWay
         # Upper left corner
         if self.i == 0 and self.j == 0:                
             south = self.matrix[self.i+1][self.j]
@@ -127,46 +131,57 @@ class vertex():# an object is created that will contain the data of each vertex
             west = self.matrix[self.i][self.j-1]
             east = self
             south = self
-            
-        print(north.getValue(), south.getValue(), east.getValue(),west.getValue())
-        
+
         northWay = []
         southWay = []
         eastWay = []
         westWay = []
         
+        northFlag = False
+        southFlag = False
+        eastFlag = False
+        westFlag = False
+        
         #Revisa si hay mas posibles caminos hacia el norte
         if north.getValue() < self.getValue():
+            northFlag = True
             if north.visited == False:
-                northWay = [self.getValue()] + north.findBestWay()
+                northWay = [self.value] + north.findBestWay()
             else:
-                northWay = [self.getValue()] + north.bestWay
+                northWay = [self.value] + north.bestWay
         #Revisa si hay mas posibles caminos hacia el sur
-        elif south.getValue() < self.getValue():
+        if south.getValue() < self.getValue():
+            southFlag = True
             if south.visited == False:
-                southWay = [self.getValue()] + south.findBestWay()
+                southWay = [self.value] + south.findBestWay()
             else:
-                southWay = [self.getValue()] + south.bestWay
+                southWay = [self.value] + south.bestWay
         #Revisa si hay mas posibles caminos hacia el este   
-        elif east.getValue() < self.getValue():
+        if east.getValue() < self.getValue():
+            eastFlag = True
             if east.visited == False:
-                eastWay = [self.getValue()] + east.findBestWay()
+                eastWay = [self.value] + east.findBestWay()
             else:
-                eastWay = [self.getValue()] + east.bestWay
+                eastWay = [self.value] + east.bestWay
         #Revisa si hay mas posibles caminos hacia el oeste   
-        elif west.getValue() < self.getValue():
+        if west.getValue() < self.getValue():
+            westFlag = True
             if west.visited == False:
-                westWay = [self.getValue()] + west.findBestWay()
+                westWay = [self.value] + west.findBestWay()
             else:
-                westWay = [self.getValue()] + west.bestWay
+                westWay = [self.value] + west.bestWay
+                
+        if northFlag == False and southFlag == False and westFlag == False and eastFlag == False:
+            self.bestWay = [self.value]
+            self.visited = True
+            return self.bestWay
         else:
-            self.bestWay = [self.getValue()]
-            northWay = [self.getValue()] 
+            self.setBestWay(self.bestWaySelected(northWay, southWay, eastWay, westWay))
             
-        #Evalua los caminos resultantes y se queda con el mejor    
-        self.setBestWay(self.bestWaySelected(northWay, southWay, eastWay, westWay))
         self.visited = True
-        return self.bestWaySelected(northWay, southWay, eastWay, westWay)
+        #print(northWay,southWay,eastWay,westWay)
+        #Evalua los caminos resultantes y se queda con el mejor    
+        return self.bestWay
     
     #TODO: revisar vecinos, si es menor y ya es visitado, toma el mejor camino
     #sino, encuentra el mejor camino
