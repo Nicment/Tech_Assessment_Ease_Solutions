@@ -18,24 +18,26 @@ class challengeSolution():
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 matrix[i][j].findBestWay()
-                self.findBestWay(matrix[i][j])
+                self.findBestWay(matrix[i][j],
+                                 matrix[i][j].lengthOfCalculatedPath,
+                                 matrix[i][j].dropOfCalculatedPath)
+        print(self.globalBestWay.lengthOfCalculatedPath)
+        print(self.globalBestWay.dropOfCalculatedPath)
+        print(self.globalBestWay.bestWay)
+                #self.findBestWay(matrix[i][j])
                 
         
-    def findBestWay(self, currentWay):
+    def findBestWay(self,vertex, lengthOfCalculatedPath, dropOfCalculatedPath):
         
-        maxPreviusSteps = self.globalBestWay.lengthOfCalculatedPath
-        maxCurrentSteps = currentWay.lengthOfCalculatedPath
+        maxSteps = max(self.globalBestWay.lengthOfCalculatedPath, lengthOfCalculatedPath)
+        print(maxSteps)
+        maxHeight = max(self.globalBestWay.dropOfCalculatedPath, dropOfCalculatedPath)
+        print(maxHeight)
         
-        maxPreviusHeight = self.globalBestWay.dropOfCalculatedPath
-        maxCurrentHeigth = currentWay.lengthOfCalculatedPath
-        
-        maxSteps = max(maxPreviusSteps, maxCurrentSteps)
-        maxHeight = max(maxPreviusHeight, maxCurrentHeigth)
-        
-        if maxPreviusSteps == maxSteps and maxPreviusHeight == maxHeight:
-            self.bestWay =  self.bestWay
-        elif maxCurrentSteps == maxSteps and maxCurrentHeigth == maxHeight:
-            self.bestWay = currentWay
+        if self.globalBestWay.lengthOfCalculatedPath == maxSteps and self.globalBestWay.dropOfCalculatedPath == maxHeight:
+            pass
+        elif lengthOfCalculatedPath == maxSteps and dropOfCalculatedPath == maxHeight:
+            self.globalBestWay = vertex
 
 class vertex():# an object is created that will contain the data of each vertex
     def __init__(self, value:int = 0, i:int = 0 , j:int = 0, matrix:list =[], size:list=[]):
@@ -83,7 +85,6 @@ class vertex():# an object is created that will contain the data of each vertex
         
         maxSteps = max(northWaySteps,max(southWaySteps,max(eastWaySteps,westWaySteps)))
         maxHeight = max(northWayHeight,max(southWayHeight,max(eastWayHeight,westWayHeight)))
-        print(maxHeight)
         
         self.lengthOfCalculatedPath = maxSteps
         self.dropOfCalculatedPath = maxHeight
