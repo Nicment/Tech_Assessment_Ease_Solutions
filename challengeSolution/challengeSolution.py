@@ -21,18 +21,15 @@ class challengeSolution():
                 self.findBestWay(matrix[i][j],
                                  matrix[i][j].lengthOfCalculatedPath,
                                  matrix[i][j].dropOfCalculatedPath)
-        print(self.globalBestWay.lengthOfCalculatedPath)
-        print(self.globalBestWay.dropOfCalculatedPath)
-        print(self.globalBestWay.bestWay)
-                #self.findBestWay(matrix[i][j])
+        print("Length of calculated path: ",self.globalBestWay.lengthOfCalculatedPath)
+        print("Drop of calculated path:   ",self.globalBestWay.dropOfCalculatedPath)
+        print("Calculated path:           ",self.globalBestWay.bestWay)
                 
         
     def findBestWay(self,vertex, lengthOfCalculatedPath, dropOfCalculatedPath):
         
         maxSteps = max(self.globalBestWay.lengthOfCalculatedPath, lengthOfCalculatedPath)
-        print(maxSteps)
         maxHeight = max(self.globalBestWay.dropOfCalculatedPath, dropOfCalculatedPath)
-        print(maxHeight)
         
         if self.globalBestWay.lengthOfCalculatedPath == maxSteps and self.globalBestWay.dropOfCalculatedPath == maxHeight:
             pass
@@ -60,7 +57,7 @@ class vertex():# an object is created that will contain the data of each vertex
         self.bestWay += bestWay
     
     def bestWaySelected(self, northWay:list=[],southWay:list =[],eastWay:list =[],westWay:list=[]):
-        
+        bestWay = []
         northWaySteps = len(northWay)
         southWaySteps = len(southWay)
         eastWaySteps = len(eastWay)
@@ -197,8 +194,7 @@ class vertex():# an object is created that will contain the data of each vertex
             return self.bestWay
         else:
             self.setBestWay(self.bestWaySelected(northWay, southWay, eastWay, westWay))
-            
-        self.visited = True
+            self.visited = True
         #print(northWay,southWay,eastWay,westWay)
         #Evalua los caminos resultantes y se queda con el mejor    
         return self.bestWay

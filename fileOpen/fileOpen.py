@@ -2,7 +2,7 @@
 #todo: load file, data verification, pre-proces data, return data
 # readFile help to read file and return list with the information
 class fileOpen():
-    def __init__(self, filePath:str="skirsesort.kitzbuehel/4x4.txt"):
+    def __init__(self, filePath:str="skirsesort.kitzbuehel/map.txt"):
         self.readFile(filePath)      
         self.preProcess(self.data)
         self.checkData()

@@ -1,13 +1,16 @@
 from fileOpen.fileOpen import fileOpen
 from challengeSolution.challengeSolution import challengeSolution
+import sys
 
 class mainChallenge():
     def __init__(self):
-        readFile = fileOpen()
+        path = "skirsesort.kitzbuehel/map.txt"
+        if(len(sys.argv) > 1):
+            path = sys.argv[1]
+        readFile = fileOpen(path)
         size = readFile.exportSize()
         data = readFile.exportMatrix()
         challengeSolution(data,size)
-        print(data)
 
 def main():
     mainChallenge()
