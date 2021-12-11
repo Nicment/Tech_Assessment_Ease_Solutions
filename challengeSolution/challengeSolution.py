@@ -5,8 +5,10 @@ class challengeSolution():
     def __init__(self,data:list, size:list):
         self.size = size
         self.data = data
+        self.globalBestWay = vertex()
         self.algorithm()
-        pass
+        
+        
     def algorithm(self):
         # for to loop through the array
         matrix = [[0 for i in range(self.size[0])] for j in range(self.size[1])]
@@ -16,11 +18,27 @@ class challengeSolution():
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 matrix[i][j].findBestWay()
-                print(matrix[i][j].bestWay)
+                self.findBestWay(matrix[i][j])
                 
+        
+    def findBestWay(self, currentWay):
+        
+        maxPreviusSteps = self.globalBestWay.lengthOfCalculatedPath
+        maxCurrentSteps = currentWay.lengthOfCalculatedPath
+        
+        maxPreviusHeight = self.globalBestWay.dropOfCalculatedPath
+        maxCurrentHeigth = currentWay.lengthOfCalculatedPath
+        
+        maxSteps = max(maxPreviusSteps, maxCurrentSteps)
+        maxHeight = max(maxPreviusHeight, maxCurrentHeigth)
+        
+        if maxPreviusSteps == maxSteps and maxPreviusHeight == maxHeight:
+            self.bestWay =  self.bestWay
+        elif maxCurrentSteps == maxSteps and maxCurrentHeigth == maxHeight:
+            self.bestWay = currentWay
 
 class vertex():# an object is created that will contain the data of each vertex
-    def __init__(self, value:int, i:int, j:int, matrix:list, size:list):
+    def __init__(self, value:int = 0, i:int = 0 , j:int = 0, matrix:list =[], size:list=[]):
         self.value = value
         self.matrix = matrix
         self.size = size
@@ -46,25 +64,26 @@ class vertex():# an object is created that will contain the data of each vertex
         eastWaySteps = len(eastWay)
         westWaySteps = len(westWay)
         
-        if northWaySteps < 0:
+        if northWaySteps > 0:
             northWayHeight = northWay[0] - northWay[northWaySteps-1] + 1
         else:
             northWayHeight = 0
-        if southWaySteps < 0:
+        if southWaySteps > 0:
             southWayHeight = southWay[0] - southWay[southWaySteps-1] + 1
         else:
             southWayHeight = 0
-        if westWaySteps < 0:
-            westWayHeight = southWay[0] - southWay[eastWaySteps-1] + 1
+        if westWaySteps > 0:
+            westWayHeight = westWay[0] - westWay[westWaySteps-1] + 1
         else:
             westWayHeight = 0
-        if eastWaySteps < 0:
-            eastWayHeight = westWay[0] - westWay[westWaySteps-1] + 1
+        if eastWaySteps > 0:
+            eastWayHeight = eastWay[0] - eastWay[eastWaySteps-1] + 1
         else:
             eastWayHeight = 0
         
         maxSteps = max(northWaySteps,max(southWaySteps,max(eastWaySteps,westWaySteps)))
         maxHeight = max(northWayHeight,max(southWayHeight,max(eastWayHeight,westWayHeight)))
+        print(maxHeight)
         
         self.lengthOfCalculatedPath = maxSteps
         self.dropOfCalculatedPath = maxHeight
